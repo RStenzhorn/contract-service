@@ -1,6 +1,6 @@
 package de.rjst.cs;
 
-import de.rjst.cs.adapter.CustomerDto;
+import de.rjst.cs.adapter.CreateCustomerDto;
 import de.rjst.cs.adapter.CustomerService;
 import de.rjst.cs.api.ContractDto;
 import de.rjst.cs.api.CreateContractDto;
@@ -19,13 +19,18 @@ public class ContractController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ContractDto createContract(@RequestBody CreateContractDto contractDto) {
-        String customerId = contractDto.getCustomerId();
-        CustomerDto customer = customerService.getCustomerById(customerId);
+    public ContractDto createContract(@RequestBody final CreateContractDto contractDto) {
+        final var customerId = contractDto.getCustomerId();
+        final var customer = customerService.getCustomerById(customerId);
         if (customer == null) {
             throw new IllegalArgumentException("Customer not found");
         }
         return new ContractDto();
+    }
+
+    @PostMapping("cus")
+    public void test(@RequestBody final CreateCustomerDto createCustomerDto) {
+        customerService.createCustomer(createCustomerDto);
     }
 
 }
